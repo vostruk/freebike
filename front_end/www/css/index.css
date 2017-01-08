@@ -1,0 +1,134 @@
+#templates { display: none; }
+
+.intro-text {
+  margin: 0 50px 15px;
+  font-size: 20px;
+}
+
+.about-link {
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+#autocomplete {
+  position: absolute;
+  background: white;
+  border: 1px solid lightgray;
+  z-index: 1000;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+#autocomplete .contents [data-template-name=autocomplete-item] {
+  border-bottom: 1px solid lightgray;
+  padding: 5px;
+  cursor: pointer;
+}
+
+#autocomplete .contents [data-template-name=autocomplete-item]:hover {
+  background: #eee;
+}
+
+#autocomplete .copyright {
+  text-align: right;
+  font-size: small;
+  color: gray;
+  padding: 1px 2px;
+}
+
+#autocomplete .recent-marker {
+  font-size: x-small;
+  padding: 1px 2px;
+  color: lightgray;
+  border-bottom: 1px solid lightgray;
+}
+
+.location-button-wrapper {
+  position: relative;
+}
+
+#input_begin, #input_end {
+  height: 40px;
+}
+
+#input_begin {
+  padding-right: 36px;
+}
+
+#button_location {
+  padding: 4px;
+  border: none;
+  background: transparent;
+
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+
+#button_location svg {
+  width: 32px;
+  height: 32px;
+}
+
+#button_location path {
+  fill: #333;
+}
+
+#button_location:active path {
+  fill: black;
+}
+
+.navbar {
+  background-color: blue;
+}
+
+.navbar-brand, .navbar-brand:hover {
+  float: none;
+  color: white;
+  font-size: 28px;
+}
+
+html, body, #templates, #app, #main, [data-template-name=main], [data-template-name=map] {
+  height: 100%;
+}
+
+#templates {
+  position: absolute;
+}
+
+#mapid {
+  min-height: 200px;
+  height: 100%;
+}
+
+.mapheader {
+  position: fixed;
+  z-index: 100;
+  background: white;
+  width: 100%;
+  height: 28px;
+  padding-top: 3px;
+}
+
+.mapfooter {
+  position: fixed;
+  z-index: 100;
+  bottom: 0;
+  background: white;
+  width: 100%;
+}
+
+.route-distance, .route-time {
+  display: inline-block;
+  height: 28px;
+  padding-left: 28px;
+}
+
+.route-distance {
+  background: url(../img/bike.svg) no-repeat;
+}
+
+.route-time {
+  background: url(../img/clock.svg) no-repeat;
+  margin-left: 10px;
+}

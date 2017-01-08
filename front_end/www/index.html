@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval' http://open.mapquestapi.com http://api.ceburilo.pl; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: http://*.tile.openstreetmap.org">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <!-- Bootstrap ver 3.3.6 -->
+    <link rel="stylesheet" type="text/css" href="libs/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="libs/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="libs/leaflet.label.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/modal.css">
+    <title>Nawigacja rowerowa</title>
+  </head>
+  <body>
+    <div id="templates">
+
+      <div data-template-name="main">
+        <!-- Logo -->
+        <div class="navbar navbar-static-top">
+          <div class="container">
+            <a class="navbar-brand text-center center-block">SPDB: Nawigacja rowerowa</a>
+          </div>
+        </div>
+
+        <!-- Glowna czesc -->
+        <div class="container">
+          <div class="text-center">
+            <p class="intro-text text-center">Znajdź darmową trasę rowerem do dowolnego miejsca w Warszawie.</p>
+            <a href class="about-link">Więcej informacji</a>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="input_begin">Z:</label>
+                <div class="location-button-wrapper">
+                  <input type="text" class="form-control" id="input_begin">
+                  <button id="button_location">
+                    <svg viewBox="0 0 24 24">
+                      <path fill="#000000" d="M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M3.05,13H1V11H3.05C3.5,6.83 6.83,3.5 11,3.05V1H13V3.05C17.17,3.5 20.5,6.83 20.95,11H23V13H20.95C20.5,17.17 17.17,20.5 13,20.95V23H11V20.95C6.83,20.5 3.5,17.17 3.05,13M12,5A7,7 0 0,0 5,12A7,7 0 0,0 12,19A7,7 0 0,0 19,12A7,7 0 0,0 12,5Z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="input_end">Do:</label>
+                <input type="text" class="form-control" id="input_end">
+              </div>
+            </div>
+          </div>
+
+          <!-- Przycisk wyslij -->
+          <div class="row text-center">
+            <button id="button_search" class="btn btn-info">Szukaj</button>
+          </div>
+        </div>
+      </div>
+
+      <div data-template-name="map">
+        <div class="container mapheader text-center">
+          <span class="route-distance"></span>
+          <span class="route-time"></span>
+        </div>
+        <div id="mapid"></div>
+        <div class="container mapfooter">
+        </div>
+      </div>
+
+      <div data-template-name="autocomplete-item">
+        <span class="name"></span>
+      </div>
+
+      <div data-template-name="autocomplete-recent-marker" class="recent-marker">
+        Ostatnie lokalizacje:
+      </div>
+
+      <div data-template-name="autocomplete-notavailable" class="recent-marker">
+        Brak podpowiedzi
+      </div>
+
+      <div class="alert alert-danger" data-template-name="error-msg">
+        <strong>Błąd: </strong>
+        <span class="msg"></span>
+      </div>
+
+      <div data-template-name="about">
+        <p>Operator warszawskiego roweru miejskiego <a href="https://www.veturilo.waw.pl/">VETURILO</a>
+        nie pobiera opłat za przejazdy poniżej 20 minut. Zmieniając rower na
+        stacjach po drodze można przejechać dowolną trasę nie płacąc ani złotówki.</p>
+
+        <p><em>Nawigacja rowerowa to projekt</em> ułatwiający tą praktykę poprzez podpowiadanie, w
+        którym miejscu należy dokonać zmiany roweru.  Aplikacja dzieli trasę
+        na 20-minutowe odcinki.</p>
+        <p>Aby wyszukać trasę, wybierz miejsce startowe i docelowe i naciśnij Szukaj.</p>
+      </div>
+
+    </div>
+
+    <div id="autocomplete" style="display: none;">
+      <div class="contents"></div>
+      <div class="copyright">© <a href="https://www.openstreetmap.org" target="_blank">OpenStreetMap</a></div>
+    </div>
+
+    <div id="app">
+    </div>
+
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <p>Podana trasa nie została znaleziona, kliknij przycisk by powrócić do strony głownej</p>
+        <button id="button_back" class="btn btn-info">Powrót</button>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <!-- Leaflet ver 0.7.7 -->
+    <script type="text/javascript" src="libs/leaflet.js"></script>
+    <script type="text/javascript" src="libs/leaflet.label.js"></script>
+    <script type="text/javascript" src="js/templates.js"></script>
+    <script type="text/javascript" src="js/utils.js"></script>
+    <script type="text/javascript" src="js/autocomplete.js"></script>
+    <script type="text/javascript" src="js/locationAutocomplete.js"></script>
+    <script type="text/javascript" src="js/backend.js"></script>
+    <script type="text/javascript" src="js/routing.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+  </body>
+</html>
